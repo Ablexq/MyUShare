@@ -54,8 +54,8 @@ at java.lang.Thread.run(Thread.java:776)?
 缺少umeng-common-1.4.3.jar 
 
 
-
-
+QQ、微信、新浪微博等appkey,需要到相应的开发者平台注册账号、注册应用信息获取。
+----
 
 
 
