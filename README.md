@@ -12,11 +12,14 @@
 
 [Android友盟统计的集成与使用（包含多渠道打包配置）](https://www.jianshu.com/p/e4da2f477cd8)
 
+
+[安卓友盟第三方登录与分享(集成工具：较旧版本)](https://blog.csdn.net/qq_34536167/article/details/78704756)
+
 #  集成
 
 参考：
 
-[Android友盟分享集成与走过的坑](https://blog.csdn.net/weihua_li/article/details/81184613)
+[Android友盟分享集成与走过的坑（集成工具：较新版本）](https://blog.csdn.net/weihua_li/article/details/81184613)
 
 ### 下载友盟SDK
 
