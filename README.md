@@ -12,7 +12,60 @@
 
 [Android友盟统计的集成与使用（包含多渠道打包配置）](https://www.jianshu.com/p/e4da2f477cd8)
 
-问题：
+#  集成
+
+参考：
+
+[Android友盟分享集成与走过的坑](https://blog.csdn.net/weihua_li/article/details/81184613)
+
+### 下载友盟SDK
+
+https://developer.umeng.com/sdk/android
+
+### 下载集成工具
+
+https://developer.umeng.com/tools
+
+请注意，在你下载SDK的同时集成工具就会在你下载的文件夹中，切记不要移动他的位置，保证它和SDK在同一级目录下。
+
+
+### 使用集成工具把友盟SDK集成，自动生成UMLibrary，并项目中引用这个library
+
+### 权限及组件
+
+applicationId的包名下新建wxapi包，并新建WXEntryActivity类继承WXCallbackActivity
+
+```
+<!--微信：-->
+<activity
+    android:name=".wxapi.WXEntryActivity"
+    android:configChanges="keyboardHidden|orientation|screenSize"
+    android:exported="true"
+    android:screenOrientation="portrait"
+    android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+```
+
+### 初始化及平台appkey
+
+去各个平台申请注册，获得各平台appKey，然后设置各个平台的appKey
+```
+{
+    PlatformConfig.setWeixin("wx967daebe835fbeac", "25937a3df443a3d21c70219e1778fd2e");
+    PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+    PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
+}
+```
+
+```
+UMConfigure.setLogEnabled(true);
+UMConfigure.init(this, "AppKey", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+```
+
+### 到此为止，全部配置完成
+
+
+
+# 问题：
 
 ```
  AndroidRuntime: FATAL EXCEPTION: Thread-5
