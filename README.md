@@ -39,32 +39,108 @@ https://developer.umeng.com/tools
 applicationId的包名下新建wxapi包，并新建WXEntryActivity类继承WXCallbackActivity
 
 ```
-<!--微信：-->
-<activity
-    android:name=".wxapi.WXEntryActivity"
-    android:configChanges="keyboardHidden|orientation|screenSize"
-    android:exported="true"
-    android:screenOrientation="portrait"
-    android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+<!-- ===============================友盟分享 开始=======================-->
+
+    <!-- 友盟分享 value 需要替换友盟的 APPkey -->
+    <meta-data
+        android:name="UMENG_APPKEY"
+        android:value="xxxxxxxxxxxxxxxxxxxxxxxxxxx" >
+    </meta-data>
+
+
+    <!-- 友盟分享 微信：-->
+    <activity
+        android:name=".wxapi.WXEntryActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize"
+        android:exported="true"
+        android:screenOrientation="portrait"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+
+    <!-- 友盟分享 QQ： scheme需要替换QQ的key-->
+    <activity
+        android:name="com.tencent.tauth.AuthActivity"
+        android:launchMode="singleTask"
+        android:noHistory="true" >
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data android:scheme="xxxxxxxxxxxxxxxxxxxxxxxxxxx" />
+        </intent-filter>
+    </activity>
+    <activity
+        android:name="com.tencent.connect.common.AssistActivity"
+        android:theme="@android:style/Theme.Translucent.NoTitleBar"
+        android:configChanges="orientation|keyboardHidden|screenSize"/>
+    <!-- ===============================友盟分享 结束=======================-->
 ```
 
-### 初始化及平台appkey
+### application中初始化及平台appkey
 
 去各个平台申请注册，获得各平台appKey，然后设置各个平台的appKey
+
 ```
-{
-    PlatformConfig.setWeixin("wx967daebe835fbeac", "25937a3df443a3d21c70219e1778fd2e");
-    PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
-    PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
+private void initUM() {
+    UMConfigure.setLogEnabled(true);
+    //友盟appkey
+    UMConfigure.init(this, "xxxxxxxxx", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+
+    //平台id/key
+    PlatformConfig.setWeixin("xxxxxxxxxx", "xxxxxxxxxxxxxx");
+    PlatformConfig.setQQZone("xxxxxxxxxx", "xxxxxxxxxxxxxx");
 }
 ```
 
-```
-UMConfigure.setLogEnabled(true);
-UMConfigure.init(this, "AppKey", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
-```
 
 ### 到此为止，全部配置完成
+
+### 分享
+
+```
+UMImage image = new UMImage(WebActivity.this, share_img);
+UMWeb web = new UMWeb(refer_code_url);//链接
+web.setTitle(share_title);//标题
+web.setThumb(image);  //缩略图
+web.setDescription(share_abstract);//描述
+
+new ShareAction(WebActivity.this)
+        .withMedia(web)
+        .setDisplayList(SHARE_MEDIA.QQ,
+                SHARE_MEDIA.QZONE,
+                SHARE_MEDIA.WEIXIN_CIRCLE,
+                SHARE_MEDIA.WEIXIN)//自带面板的分享（顺序）
+        .setCallback(shareListener).open();
+```
+
+```
+ private UMShareListener shareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
+            System.out.println("===========onStart=============");
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA share_media) {
+            System.out.println("===========onResult=============");
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+            System.out.println("===========onError=============");
+
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA share_media) {
+            System.out.println("===========onCancel=============");
+
+        }
+    };
+```
 
 
 
