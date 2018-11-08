@@ -34,6 +34,9 @@ https://developer.umeng.com/tools
 
 ### 使用集成工具把友盟SDK集成，自动生成UMLibrary，并项目中引用这个library
 
+
+![](imgs/友盟集成工具生成的module.png)
+
 ### 权限及组件
 
 applicationId的包名下新建wxapi包，并新建WXEntryActivity类继承WXCallbackActivity
