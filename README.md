@@ -15,7 +15,7 @@
 
 [安卓友盟第三方登录与分享(集成工具：较旧版本)](https://blog.csdn.net/qq_34536167/article/details/78704756)
 
-#  集成
+#  集成友盟分享
 
 参考：
 
@@ -34,6 +34,7 @@ https://developer.umeng.com/tools
 
 ### 使用集成工具把友盟SDK集成，自动生成UMLibrary，并项目中引用这个library
 
+![](imgs/友盟分享lib包结构.png)
 
 ![](imgs/友盟集成工具生成的module.png)
 
@@ -144,6 +145,69 @@ new ShareAction(WebActivity.this)
         }
     };
 ```
+
+# 集成友盟统计
+
+### 下载友盟SDK
+
+https://developer.umeng.com/sdk/android
+
+### 下载集成工具
+
+https://developer.umeng.com/tools
+
+请注意，在你下载SDK的同时集成工具就会在你下载的文件夹中，切记不要移动他的位置，保证它和SDK在同一级目录下。
+
+
+### 使用集成工具把友盟SDK集成，自动生成UMLibrary，并项目中引用这个library
+
+![](imgs/友盟统计lib必须结构.png)
+
+###  代码设置：
+
+如果页面是直接由Activity实现的，统计代码大约是这样：
+
+```
+public void onResume() {
+    super.onResume();
+    MobclickAgent.onPageStart("SplashScreen"); 
+    //  统计页面(仅有Activity的应用中SDK自动调用，不需要单独写。"SplashScreen"为页面名称，可自定义)
+    MobclickAgent.onResume(this);          
+    //  统计时长
+}
+public void onPause() {
+    super.onPause();
+    MobclickAgent.onPageEnd("SplashScreen"); 
+    // （仅有Activity的应用中SDK自动调用，不需要单独写）保证 onPageEnd 在onPause 之前调用,
+    //  因为 onPause 中会保存信息。"SplashScreen"为页面名称，可自定义
+    MobclickAgent.onPause(this);
+}
+```
+
+如果页面是使用FragmentActivity + Fragment实现的，需要在 FragmentActivity 中统计时长：
+```
+public void onResume() {
+    super.onResume();
+    MobclickAgent.onResume(this);       //统计时长
+}
+public void onPause() {
+    super.onPause();
+    MobclickAgent.onPause(this);
+}
+```
+
+并在其包含的 Fragment 中统计页面：
+```
+public void onResume() {
+    super.onResume();
+    MobclickAgent.onPageStart("MainScreen"); //统计页面，"MainScreen"为页面名称，可自定义
+}
+public void onPause() {
+    super.onPause();
+    MobclickAgent.onPageEnd("MainScreen"); 
+}
+```
+
 
 
 
